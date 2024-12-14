@@ -2,7 +2,12 @@
   <div class="tip-calculator">
     <h1 class="tip-calculator__title">LeTipCalculator</h1>
     <div class="tip-calculator__content">
-      <div class="tip-calculator__form">
+      <div
+        class="tip-calculator__form"
+        :class="{
+          'tip-calculator__panel--hidden': isMobile && activePanel === 'info',
+        }"
+      >
         <div class="tip-calculator__form-group">
           <span class="tip-calculator__currency-label">EUR</span>
           <BaseToogleInput
@@ -11,7 +16,7 @@
           />
           <span class="tip-calculator__currency-label">USD</span>
         </div>
-        <div class="tip-calculator__form-group">
+        <div class="tip-calculator__cuurency-value">
           <p class="tip-calculator__currency">Valor: {{ currency }}</p>
           <BaseInput
             class="tip-calculator__input"
@@ -20,27 +25,35 @@
             v-model="countValue"
           />
         </div>
-        <BaseInputRange
-          class="tip-calculator__input-range"
-          label="Gorjeta"
-          :contentLabel="'%'"
-          v-model="tipPercent"
-          :min="10"
-          :max="20"
-          :step="1"
-          :inputAttrs="{ class: 'custom-range' }"
-        />
-        <BaseInputRange
-          class="tip-calculator__input-range"
-          label="Número de Pessoas"
-          v-model="peopleCount"
-          :min="2"
-          :max="16"
-          :step="1"
-          :inputAttrs="{ class: 'custom-range' }"
-        />
+        <div class="tip-calculator__input-range">
+          <BaseInputRange
+            label="Gorjeta"
+            :contentLabel="'%'"
+            v-model="tipPercent"
+            :min="10"
+            :max="20"
+            :step="1"
+            :inputAttrs="{ class: 'custom-range' }"
+          />
+        </div>
+        <div class="tip-calculator__input-range">
+          <BaseInputRange
+            label="Número de Pessoas"
+            v-model="peopleCount"
+            :min="2"
+            :max="16"
+            :step="1"
+            :inputAttrs="{ class: 'custom-range' }"
+          />
+        </div>
       </div>
-      <div class="tip-calculator__info">
+
+      <div
+        class="tip-calculator__info"
+        :class="{
+          'tip-calculator__panel--hidden': isMobile && activePanel === 'form',
+        }"
+      >
         <h3 class="tip-calculator__info-title">Valor da Conta</h3>
         <p class="tip-calculator__info-value">{{ formattedCountValue }}</p>
         <h3 class="tip-calculator__info-title">Gorjeta</h3>
@@ -53,6 +66,21 @@
         <p class="tip-calculator__info-value">R$ {{ formattedPerPersonBRL }}</p>
       </div>
     </div>
+    <div class="tip-calculator__toggle">
+      <button
+        class="tip-calculator__toggle-info-button"
+        v-if="isMobile"
+        @click="togglePanel('form')"
+      >
+        <i
+          :class="
+            activePanel === 'form'
+              ? 'fas fa-chevron-right'
+              : 'fas fa-chevron-left'
+          "
+        ></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -60,6 +88,7 @@
 import BaseToogleInput from "@/components/Inputs/BaseToogleInput.vue";
 import BaseInputRange from "@/components/Inputs/BaseInputRange.vue";
 import BaseInput from "../Inputs/BaseInput.vue";
+
 import { getCurrencyExchange } from "@/services/client";
 
 export default {
@@ -82,6 +111,8 @@ export default {
         USD: "$",
         EUR: "€",
       },
+      isMobile: window.innerWidth <= 767,
+      activePanel: "form",
     };
   },
   computed: {
@@ -144,9 +175,22 @@ export default {
         console.error("Erro ao obter a taxa de câmbio:", error);
       }
     },
+    togglePanel() {
+      this.activePanel = this.activePanel === "form" ? "info" : "form";
+    },
+    updateScreenSize() {
+      this.isMobile = window.innerWidth <= 767;
+      if (!this.isMobile) {
+        this.panel = "form";
+      }
+    },
   },
   mounted() {
     this.fetchExchangeRate();
+    window.addEventListener("resize", this.updateScreenSize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.updateScreenSize);
   },
 };
 </script>
@@ -155,18 +199,17 @@ export default {
 .tip-calculator {
   display: flex;
   flex-direction: column;
-  min-width: 600px;
-  min-height: 600px;
+  max-width: 850px;
   background-color: #fff;
-  padding: 2rem 4rem;
   border-radius: 1rem;
-  margin: 2rem auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+  width: 60%;
 }
 
 .tip-calculator__content {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 2rem 0;
 }
 
@@ -174,7 +217,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  width: 50%;
 }
 
 .tip-calculator__form-group {
@@ -186,6 +228,16 @@ export default {
 
 .tip-calculator__currency {
   width: 30%;
+  font-weight: bold;
+}
+
+.tip-calculator__cuurency-value {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
 }
 
 .tip-calculator__currency-label {
@@ -193,18 +245,21 @@ export default {
 }
 
 .tip-calculator__input {
-  width: 100%;
+  width: 50%;
 }
 
 .tip-calculator__input-range {
+  display: flex;
+  justify-content: center;
   width: 100%;
+  margin: 1rem 0;
 }
 
 .tip-calculator__info {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 50%;
+  width: 40%;
 }
 
 .tip-calculator__info-title {
@@ -214,5 +269,41 @@ export default {
 .tip-calculator__info-value {
   margin: 0;
   font-weight: bold;
+}
+
+.tip-calculator__panel--hidden {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .tip-calculator__content {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    height: 80%;
+  }
+
+  .tip-calculator__input-range {
+    display: flex;
+    justify-content: center;
+  }
+
+  .tip-calculator__toggle {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem
+  }
+
+  .tip-calculator__toggle-info-button {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+  }
 }
 </style>
