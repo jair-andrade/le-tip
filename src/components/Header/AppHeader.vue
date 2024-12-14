@@ -1,7 +1,12 @@
 <template>
   <div class="header">
     <div class="header__logo">
-      <img :src="headerImage" class="header__logo-image" width="50px" alt="Logo do site no cabeçalho" />
+      <img
+        :src="headerImage"
+        class="header__logo-image"
+        width="50px"
+        alt="Logo do site no cabeçalho"
+      />
     </div>
     <div class="header__info">
       <h1 class="header__title">LE TIP</h1>
@@ -31,7 +36,6 @@ export default {
   align-items: center;
   background-color: var(--primary-color);
   width: 100%;
-  padding: 1rem 2rem;
 }
 
 .header__logo {
