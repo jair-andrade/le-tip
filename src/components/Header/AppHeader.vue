@@ -8,23 +8,31 @@
         alt="Logo do site no cabeçalho"
       />
     </div>
+    <div class="header__info"></div>
     <div class="header__info">
-      <h1 class="header__title">LE TIP</h1>
-    </div>
-    <div class="header__info">
-      <h3 class="header__subtitle"></h3>
+      <h3 class="header__subtitle">Câmbio atual: {{ formattedHeaderValue }}</h3>
     </div>
   </div>
 </template>
 
 <script>
 import headerImage from "@/assets/logo.png";
+import { mapGetters } from "vuex";
 export default {
   name: "AppHeader",
   data() {
     return {
       headerImage,
     };
+  },
+  computed: {
+    ...mapGetters(["headerValue"]),
+    formattedHeaderValue() {
+      if (!this.headerValue.currency) return "";
+      return `${this.headerValue.symbol} ${parseFloat(
+        this.headerValue.currency
+      ).toFixed(2)}`;
+    },
   },
 };
 </script>
@@ -49,6 +57,7 @@ export default {
 .header__info {
   display: flex;
   justify-content: center;
+  padding: 1rem;
 }
 
 .header__title {

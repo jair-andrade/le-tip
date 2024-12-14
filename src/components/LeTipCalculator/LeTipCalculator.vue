@@ -171,6 +171,7 @@ export default {
         );
         this.exchangeRate =
           result[`${this.fromCurrency}${this.toCurrency}`].ask;
+        this.$store.dispatch("updateHeaderValue", { currency: this.exchangeRate, symbol: this.currency });
       } catch (error) {
         console.error("Erro ao obter a taxa de câmbio:", error);
       }
@@ -291,7 +292,7 @@ export default {
   .tip-calculator__toggle {
     display: flex;
     justify-content: flex-end;
-    padding: 1rem
+    padding: 1rem;
   }
 
   .tip-calculator__toggle-info-button {
