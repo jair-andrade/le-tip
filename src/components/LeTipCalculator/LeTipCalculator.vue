@@ -1,6 +1,6 @@
 <template>
   <div class="tip-calculator">
-    <h1 class="tip-calculator__title">LeTipCalculator</h1>
+    <h1 class="tip-calculator__title">LE/TIP</h1>
     <div class="tip-calculator__content">
       <div
         class="tip-calculator__form"
