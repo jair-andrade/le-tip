@@ -82,15 +82,15 @@ label {
 input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
-  height: 3px;
+  height: 0.188rem;
   background: var(--secondary-color);
   outline: none;
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 15px;
-  height: 15px;
+  width: 0.938rem;
+  height: 0.938rem;
   border-radius: 100%;
   background: var(--primary-color);
   cursor: pointer;

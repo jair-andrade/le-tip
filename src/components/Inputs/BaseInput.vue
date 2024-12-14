@@ -31,7 +31,7 @@ export default {
 
 .base-input__field {
   padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 0.063rem solid #ccc;
+  border-radius: 0.25rem;
 }
 </style>

@@ -235,7 +235,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
   justify-content: center;
   width: 100%;
 }

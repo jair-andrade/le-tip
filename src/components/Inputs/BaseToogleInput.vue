@@ -41,14 +41,14 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .toggle-input__switch {
   position: relative;
   display: inline-block;
-  width: 50px;
-  height: 25px;
+  width: 3.125rem;
+  height: 1.563rem;
 }
 
 .toggle-input__checkbox {
@@ -66,19 +66,19 @@ export default {
   bottom: 0;
   background-color: #ccc;
   transition: 0.4s;
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 .toggle-input__slider:before {
   position: absolute;
   content: "";
-  height: 21px;
-  width: 21px;
-  left: 2px;
-  bottom: 2px;
+  height: 1.313rem;
+  width: 1.313rem;
+  left: 0.125rem;;
+  bottom: 0.125rem;;
   background-color: white;
   transition: 0.4s;
-  border-radius: 2px;
+  border-radius: 0.125rem;
 }
 
 .toggle-input__checkbox:checked + .toggle-input__slider {
@@ -86,6 +86,6 @@ export default {
 }
 
 .toggle-input__checkbox:checked + .toggle-input__slider:before {
-  transform: translateX(24px);
+  transform: translateX(1.5rem);
 }
 </style>
