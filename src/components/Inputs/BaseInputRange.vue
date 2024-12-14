@@ -73,7 +73,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  width: 100%;
 }
 label {
   margin-bottom: 0.5rem;
